@@ -1,0 +1,135 @@
+#include <iostream> 
+using namespace std; 
+// Node class to represent a node of the linked list. 
+class Node{ 
+public: 
+	int data; 
+	Node* next; 
+	// Default constructor 
+	Node() 
+	{ 
+		data = 0; 
+		next = NULL; 
+	} 
+	// Parameterised Constructor 
+	Node(int data) 
+	{ 
+		this->data = data; //  -> is used to access the members (variables and functions) of an object that is pointed to by a pointer
+		this->next = NULL; 
+	} 
+}; 
+// Linked list class. 
+class Linkedlist { 
+	Node* head; 
+public: 
+	// Default constructor 
+	Linkedlist() { head = NULL; } 
+	// Insert a node at the end of the linked list. 
+	void insertNode(int); 
+	// Print all the nodes in the linked list. 
+	void printList(); 
+	// Delete the node at given position 
+	void deleteNode(int); 
+}; 
+// Insert a new node. 
+//  :: scope resolution operator, is used to access members of a class.
+void Linkedlist::insertNode(int data) 
+{ 
+	// Create the new Node. 
+	Node* newNode = new Node(data); 
+	// Assign to head 
+	if (head == NULL) { 
+		head = newNode; 
+		return; 
+	} 
+	// Traverse till end of list 
+	Node* temp = head; 
+	while (temp->next != NULL) { 
+		// Update temp 
+		temp = temp->next; 
+	} 
+	// Insert at the last. 
+	temp->next = newNode; 
+} 
+// Print all the nodes of the linked list. 
+void Linkedlist::printList() 
+{ 
+	Node* temp = head; 
+	// Check for empty list. 
+	if (head == NULL) { 
+		cout << "List is empty" << endl;
+		return; 
+	} 
+	// Traverse the list. 
+	while (temp != NULL) { 
+		cout << temp->data << endl; 
+		temp = temp->next; 
+	} 
+}  
+// Delete the node at given position 
+void Linkedlist::deleteNode(int nodepos) 
+{ 
+	Node *temp1 = head, *temp2 = NULL; 
+	int ListLen = 0; 
+	if (head == NULL) { 
+		cout << "LIST IS EMPTY deletion not performed" << endl; 
+		return; 
+	} 
+	// Find length of the linked-list. 
+	while (temp1 != NULL) { 
+		temp1 = temp1->next; 
+		ListLen++; 
+	} 
+	// Check if the position to be deleted is greater than the length of the linked list. 
+	if (ListLen < nodepos) { 
+		cout << "Index is out of range"<< endl; 
+		return; 
+	} 
+	// Declare temp1 
+	temp1 = head; 
+	// Deleting the head. 
+	if (nodepos == 1) { 
+		// Update head 
+		head = head->next; 
+		delete temp1; 
+		// cout<<"In head next value must be NULL at this stage: "<<head->next<<endl; 
+		return; 
+	} 
+	// Traverse the list to  find the node to be deleted. 
+	while (nodepos-- > 1) { 
+		// Update temp2 
+		temp2 = temp1; 
+		// Update temp1 
+		temp1 = temp1->next; 
+	} 
+	// Change the next pointer of the previous node. 
+	temp2->next = temp1->next; 
+	// Delete the node (deallocate memory)
+	delete temp1; 
+} 
+// Driver Code 
+int main() 
+{ 
+	Linkedlist list; // Object creation , Node Head is created.
+	list.printList();
+	list.insertNode(5);	
+	list.printList();
+list.deleteNode(1);
+list.printList();
+list.insertNode(6);	
+list.printList();
+list.insertNode(5);
+list.printList(); 
+list.insertNode(6);
+list.printList(); 
+list.insertNode(7);
+	list.insertNode(8);
+	cout<<"List after insertion of three elements:"<<endl;
+list.printList(); 
+	list.printList();
+ //Delete node at position 2. 
+	list.deleteNode(2);
+cout<<"List after deletion of node at position 2:"<<endl;
+list.printList();
+	return 0; 
+}

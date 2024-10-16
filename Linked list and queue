@@ -56,8 +56,11 @@ int main() {
     q.Enqueue(10);
     q.Enqueue(20);
     q.Enqueue(30);
+    q.Enqueue(40);
+    cout<<"Queue after Enqueue:"<<endl;
     q.Display(); 
 	q.DeQueue();
+	cout<<"Queue after Dequeue:"<<endl;
 	q.Display();
     return 0;
 }

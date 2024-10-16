@@ -1,0 +1,63 @@
+#include <iostream>
+using namespace std;
+struct Node {
+    int value;
+    Node *next;
+};
+
+class Queue {
+    Node *front, *rear;
+
+public:
+    Queue() {
+        front = rear = 0; 
+    }
+
+  //inserting item in queue//
+    void Enqueue(int data) {
+        Node *newnode = new Node; 
+        newnode->value = data;    
+        newnode->next = 0; 
+
+        if (front == 0) {
+            front = rear = newnode; 
+        } else {
+            rear->next = newnode; 
+            rear = newnode;       
+        }
+    }
+    //removing item in queue//
+    DeQueue() {
+            Node *temp;
+    	if (front == 0){
+    		cout<<"Queue is Empty";
+		} 
+        else{
+        	temp= front;
+            front = front->next;
+            delete temp; 
+        }
+    }
+
+//Desplaying item in Queue//
+    void Display() {
+        Node *temp = front;
+        while (temp != 0) {
+            cout << temp->value << "\t";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+
+};
+
+int main() {
+    Queue q;
+    q.Enqueue(10);
+    q.Enqueue(20);
+    q.Enqueue(30);
+    q.Display(); 
+	q.DeQueue();
+	q.Display();
+    return 0;
+}

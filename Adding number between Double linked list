@@ -1,0 +1,113 @@
+#include <iostream>
+using namespace std;
+class Node {
+public:
+    int data;
+    Node* next;
+    Node* prev;
+
+    Node(int value) :
+    data(value), next(0), prev(0) {}
+};
+
+class DoublyLinkedList {
+private:
+    Node* head;
+    Node* tail;
+
+public:
+    DoublyLinkedList() : head(0), tail(0) {}
+
+    void insert(int value) {
+        Node* newNode = new Node(value);
+        if (!head) {
+            head = tail = newNode;
+        } else {
+            tail->next = newNode;
+            newNode->prev = tail;
+            tail = newNode;
+        }
+    }
+    
+    void insertAtMiddle(int value) {
+        Node* newNode = new Node(value);
+        if (!head) {
+           
+            head = tail = newNode;
+        } else {
+            Node* slow = head;
+            Node* fast = head;
+
+            while (fast && fast->next) {
+                slow = slow->next;
+                fast = fast->next->next;
+            }
+
+           if (fast) {
+                newNode->next = slow->next;
+                newNode->prev = slow;
+                if (slow->next) {
+                    slow->next->prev = newNode;
+                }
+                slow->next = newNode;
+                if (!newNode->next) {
+                    tail = newNode; 
+                }
+            } else { 
+                newNode->next = slow;
+                newNode->prev = slow->prev;
+                if (slow->prev) {
+                    slow->prev->next = newNode;
+                } else {
+                    head = newNode; 
+                }
+                slow->prev = newNode;
+            }
+        }
+    }
+
+    void displayForward() {
+        Node* current = head;
+        while (current) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+        cout << endl;
+    }
+
+    void displayBackward() {
+        Node* current = tail;
+        while (current) {
+            cout << current->data << " ";
+            current = current->prev;
+        }
+        cout << endl;
+    }
+
+    ~DoublyLinkedList() {
+        while (head) {
+            Node* temp = head;
+            head = head->next;
+            delete temp;
+        }
+    }
+};
+
+int main() {
+    DoublyLinkedList d;
+    d.insert(10);
+    d.insert(20);
+    d.insert(30);
+    
+    cout << "List (forward): ";
+    d.displayForward();
+
+    cout << "List (backward): ";
+    d.displayBackward();
+ d.insertAtMiddle(15); 
+    cout << "After inserting 15 at middle:\n";
+    cout << "List (forward): ";
+    d.displayForward();
+   
+    return 0;
+}

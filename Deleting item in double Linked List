@@ -6,7 +6,8 @@ public:
     Node* next;
     Node* prev;
 
-    Node(int value) : data(value), next(0), prev(0) {}
+    Node(int value) :
+    data(value), next(0), prev(0) {}
 };
 
 class DoublyLinkedList {
@@ -47,11 +48,49 @@ public:
             current = current->next;
         }
     }
+    
+    void insertAtMiddle(int value) {
+        Node* newNode = new Node(value);
+        if (!head) {
+           
+            head = tail = newNode;
+        } else {
+            Node* slow = head;
+            Node* fast = head;
+
+            while (fast && fast->next) {
+                slow = slow->next;
+                fast = fast->next->next;
+            }
+
+           if (fast) {
+                newNode->next = slow->next;
+                newNode->prev = slow;
+                if (slow->next) {
+                    slow->next->prev = newNode;
+                }
+                slow->next = newNode;
+                if (!newNode->next) {
+                    tail = newNode; 
+                }
+            } else { 
+                newNode->next = slow;
+                newNode->prev = slow->prev;
+                if (slow->prev) {
+                    slow->prev->next = newNode;
+                } else {
+                    head = newNode; 
+                }
+                slow->prev = newNode;
+            }
+        }
+    }
+
 
     void displayForward() {
         Node* current = head;
         while (current) {
-            std::cout << current->data << " ";
+            cout << current->data << " ";
             current = current->next;
         }
         cout << endl;
@@ -86,11 +125,16 @@ int main() {
 
     cout << "List (backward): ";
     d.displayBackward();
-
+ cout << "List (backward): ";
+    d.displayBackward();
+ d.insertAtMiddle(15); 
+    cout << "After inserting 15 at middle:\n";
+    cout << "List (forward): ";
     d.deleteNode(20);
     
-    cout << "After deleting 2:\n";
+    cout << "After deleting 20:\n";
     cout << "List (forward): ";
+    d.displayForward();
     d.displayForward();
 
     return 0;
